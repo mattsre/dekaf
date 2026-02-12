@@ -1,0 +1,14 @@
+Dekaf has been deployed!
+
+Pulsar connection:
+  Web URL:    {{ .Values.pulsar.webUrl }}
+  Broker URL: {{ .Values.pulsar.brokerUrl }}
+
+{{- if .Values.ingress.enabled }}
+
+Access Dekaf via Ingress:
+{{- range .Values.ingress.hosts }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}
+{{- end }}
+
+{{- end }}

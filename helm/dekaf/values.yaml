@@ -1,0 +1,113 @@
+replicaCount: 1
+
+containerPort: 8090
+
+image:
+  repository: visortelle/dekaf
+  # -- Overrides the image tag whose default is the chart appVersion
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# -- Pulsar connection settings
+pulsar:
+  # -- Pulsar admin REST API URL (required)
+  webUrl: http://pulsar-broker:8080
+  # -- Pulsar binary protocol URL (required)
+  brokerUrl: pulsar://pulsar-broker:6650
+  # -- Display name for the Pulsar cluster in the UI
+  name: ""
+  # -- Color for the Pulsar cluster in the UI
+  color: ""
+  # -- Pulsar listener name
+  listenerName: ""
+  # -- Pulsar OAuth configuration
+  oauth: {}
+  # Example OAuth configuration for a StreamNative Pulsar cluster
+  #   type: oauth2
+  #   issuerUrl: https://auth.streamnative.cloud
+  #   privateKey: file:///etc/secrets/pulsar/credentials.json
+  #   audience: urn:sn:pulsar:o-abc123:dekaf-dev
+
+
+# -- Free-form config map rendered as /dekaf/config.yaml
+# Takes priority over environment variables.
+# See https://github.com/visortelle/dekaf/blob/main/docs/configuration-reference.md
+config: {}
+
+deployment:
+  annotations: {}
+  podAnnotations: {}
+  # -- Deployment strategy. Default is Recreate because the PVC is ReadWriteOnce.
+  strategy:
+    type: Recreate
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  # -- Additional environment variables
+  extraEnv: []
+  # -- Additional volumes
+  extraVolumes: []
+  # -- Additional volume mounts
+  extraVolumeMounts: []
+  # -- Additional sidecar containers
+  extraContainers: []
+  resources: {}
+    # requests:
+    #   cpu: '1'
+    #   memory: 1Gi
+    # limits:
+    #   memory: 4Gi
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+service:
+  type: ClusterIP
+  port: 8090
+  annotations: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: dekaf.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+persistence:
+  enabled: true
+  # -- Storage class. Use null for the default storage class.
+  storageClass: null
+  size: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  # -- Use an existing PVC instead of creating one
+  existingClaim: ""
+  labels: {}
+  annotations: {}
+
+serviceAccount:
+  create: false
+  annotations: {}
+  # -- The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template.
+  name: ""
+
+podSecurityContext: {}
+securityContext: {}

@@ -69,6 +69,14 @@ If you want to disable the demo application, remove it from the `docker-compose.
 
 Dekaf is a part of the official [apache/pulsar-helm-chart](https://github.com/apache/pulsar-helm-chart?tab=readme-ov-file#dekaf-ui).
 
+A standalone Helm chart is also available at [`helm/dekaf/`](./helm/dekaf/) for deploying Dekaf independently against an existing Pulsar cluster:
+
+```bash
+helm install dekaf ./helm/dekaf/ \
+  --set pulsar.webUrl=http://your-pulsar-broker:8080 \
+  --set pulsar.brokerUrl=pulsar://your-pulsar-broker:6650
+```
+
 ## Maintenance policy
 
 - Reported critical bugs are planned to be fixed in a short time after the open-source release.

@@ -1,0 +1,16 @@
+apiVersion: v2
+name: dekaf
+description: A Helm chart for Dekaf, a feature-rich open-source UI for Apache Pulsar
+type: application
+version: 0.1.0
+appVersion: "1.1.0"
+home: https://github.com/visortelle/dekaf
+icon: https://raw.githubusercontent.com/visortelle/dekaf/main/dekaf.png
+sources:
+  - https://github.com/visortelle/dekaf
+maintainers:
+  - name: visortelle
+keywords:
+  - dekaf
+  - pulsar
+  - apache-pulsar
